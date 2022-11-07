@@ -1,11 +1,13 @@
 # IsoWatch Front-end Testing
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c6eb1cc5-7c90-4407-b043-5f42f2d8b4be/deploy-status)](https://app.netlify.com/sites/isowatch/deploys)
 [![Status badge](https://img.shields.io/badge/status-development-blue.svg)](https://shields.io/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c6eb1cc5-7c90-4407-b043-5f42f2d8b4be/deploy-status)](https://app.netlify.com/sites/isowatch/deploys)
 
 This is the client-side testing ground for Capstone Project: IsoWatch.
 
 See [deployed site](https://isowatch.netlify.app/).
+
+See 
 
 ## Learn More about the Development
 
