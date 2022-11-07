@@ -1,7 +1,7 @@
 # IsoWatch Front-end
 
 [![Status badge](https://img.shields.io/badge/status-development-blue.svg)](https://shields.io/)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c6eb1cc5-7c90-4407-b043-5f42f2d8b4be/deploy-status)](https://app.netlify.com/sites/isowatch/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c6eb1cc5-7c90-4407-b043-5f42f2d8b4be/deploy-status)](https://app.netlify.com/sites/isowatch/deploys?branch=main)
 
 This is the client-side repository for Capstone Project: IsoWatch.
 
