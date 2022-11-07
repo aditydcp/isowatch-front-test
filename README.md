@@ -7,8 +7,6 @@ This is the client-side testing ground for Capstone Project: IsoWatch.
 
 See [deployed site](https://isowatch.netlify.app/).
 
-See 
-
 ## Learn More about the Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
