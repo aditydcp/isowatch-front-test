@@ -7,6 +7,27 @@ This is the client-side repository for Capstone Project: IsoWatch.
 
 See [deployed site](https://isowatch.netlify.app/).
 
+Go to [server-side repository](https://github.com/aditydcp/isowatch-backend).
+
+## How To
+
+Some things you need to have installed:
+
+- node
+- npm
+
+To start, clone this repository and go to the project directory in your terminal.
+
+Install all the dependencies
+
+    npm install
+
+Start the app
+
+    npm start
+
+Open your browser and go to http://localhost:3000/ 
+
 ## Learn More about the Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
