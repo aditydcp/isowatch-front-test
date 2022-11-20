@@ -28,6 +28,10 @@ Start the app
 
 Open your browser and go to http://localhost:3000/ 
 
+## Changelog
+
+v0.1.0: init project. Login function and Pasien List view
+
 ## Learn More about the Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
