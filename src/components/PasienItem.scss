@@ -1,0 +1,40 @@
+.Pasien {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 .5rem;
+    padding: .5rem 1rem;
+    border-bottom: 1px solid black;
+
+    .Identifier {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: default;
+
+        .Name {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+    }
+
+    .IconSlot {
+        display: flex;
+        font-size: 3rem;
+        
+        svg {
+            margin: auto;
+        }
+    }
+}
+
+.Pasien:hover {
+    background-color: #CBE7F9;
+}
+
+.Pasien:active, .active {
+    background-color: #3ABFD3;
+}
+
+.active:hover {
+    background-color: #3ABFD3 !important;
+}
