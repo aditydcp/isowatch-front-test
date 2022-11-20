@@ -9,10 +9,24 @@ export function isLoggedIn() {
     )
 }
 
+export function getId() {
+    let id = cookies.get("Isowatch-userID")
+    return (
+        id ? id : null
+    )
+}
+
 export function getName() {
     let name = cookies.get("Isowatch-name")
     return (
         name ? name : null
+    )
+}
+
+export function getToken() {
+    let token = cookies.get("Isowatch-TOKEN");
+    return (
+        token ? token : null
     )
 }
 
