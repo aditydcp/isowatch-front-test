@@ -10,6 +10,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^7.39.4",
+    "react-icons": "^4.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
     "universal-cookie": "^4.0.4",
