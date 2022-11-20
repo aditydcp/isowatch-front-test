@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Dashboard.scss"
+import { isLoggedIn, handleLogout, getName } from "../utils/cookie-monster";
 
 import logo from '../assets/logo.png'
-import { isLoggedIn } from "../utils/cookie-monster";
 
 function Dashboard() {
-    const nama = "Aditya"
+    const [namaAdmin, setNamaAdmin] = useState(getName())
 
     return (
         <>
@@ -14,16 +14,19 @@ function Dashboard() {
                 <img src={logo} className="TopBarLogo" alt="Isowatch" />
                 <div className="TopToolbar">
                     <div className="AdminAccount">
-                        Selamat datang, {nama}
+                        Selamat datang, {namaAdmin}
                     </div>
-                    <div className="LogoutButton">
+                    <div className="LogoutButton" onClick={() => {
+                        handleLogout()
+                        window.location.href = "/login"
+                        }}>
                         Log Out
                     </div>
                 </div>
             </div>
             <div className="MainPanel">
                 <div className="PasienListPanel">
-                    
+
                 </div>
                 <div className="PasienDetailPanel">
 

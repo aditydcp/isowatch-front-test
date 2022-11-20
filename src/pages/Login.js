@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import './Login.scss'
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { isLoggedIn } from "../utils/cookie-monster";
 
 import logo from '../assets/logo.png'
 import icon from '../assets/icon_main_full.png'
-import { isLoggedIn } from "../utils/cookie-monster";
 
 const cookies = new Cookies();
 
 const Login = () => {   
     const { register, formState: { errors }, handleSubmit } = useForm()
-    const onSubmit = data => console.log(data);
 
     const [idAdmin, setIdAdmin] = useState('')
     const [password, setPassword] = useState('')
@@ -41,7 +40,15 @@ const Login = () => {
             setSuccess(1)
             let expirationTime = 1000 * 60 * 60
             let expiresIn = new Date(new Date().getTime() + expirationTime)
-            cookies.set("TOKEN", result.data.token, {
+            cookies.set("Isowatch-TOKEN", result.data.token, {
+                path: "/",
+                expires: expiresIn,
+            })
+            cookies.set("Isowatch-userID", result.data.idAdmin, {
+                path: "/",
+                expires: expiresIn,
+            })
+            cookies.set("Isowatch-name", result.data.namaAdmin, {
                 path: "/",
                 expires: expiresIn,
             })
