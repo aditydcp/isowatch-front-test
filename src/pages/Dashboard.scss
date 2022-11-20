@@ -40,3 +40,78 @@
         }
     }
 }
+
+* { outline: solid 1px red; }
+
+.MainPanel {
+    display: flex;
+    height: calc(100vh - 80px);
+
+    .PasienListPanel {
+        width: 40%;
+        height: 100%;
+
+        .PasienToolbar {
+            height: 5%;
+            padding-left: 2rem;
+            display: flex;
+            gap: .5rem;
+
+            svg {
+                font-size: 2rem;
+                margin: auto 0;
+            }
+        }
+
+        .PasienList {
+            height: 85%;
+            overflow: auto;
+        }
+
+        .AddPasienButton {
+            cursor: pointer;
+            display: flex;
+            padding: 2.5% 1rem;
+            height: 2.5%;
+            background-color: #D9D9D9;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.25rem;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2.5% 1rem;
+            text-decoration: none;
+            color: black;
+        }
+
+        .AddPasienButton:hover {
+            transform: scale(1.01);
+        }
+        
+        .AddPasienButton:active {
+            transform: scale(0.975);
+            background-color: #bbbbbb;
+        }
+    }
+
+    .PasienDetailPanel {
+        width: 60%;
+        height: 100%;
+        background-color: #CBE7F9;
+    }
+}
+
+.SuwungNotice {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #666666;
+
+    svg {
+        font-size: 5rem;
+    }
+}
