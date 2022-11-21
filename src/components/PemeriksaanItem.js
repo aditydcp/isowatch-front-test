@@ -22,6 +22,7 @@ const PemeriksaanItem = props => {
                         Condition: Normal
                     </div>
                 </div>
+                {/* TODO: define condition */}
                 {/* <div className="IconSlot">
                     <IoWarningOutline />
                 </div> */}
