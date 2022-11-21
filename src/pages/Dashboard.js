@@ -7,12 +7,14 @@ import { NavLink } from "react-router-dom";
 import PemeriksaanDetail from "../components/PemeriksaanDetail";
 import axios from "axios";
 import PemeriksaanItem from "../components/PemeriksaanItem";
+import Pusher from 'pusher-js'
 
 function Dashboard() {
     const [pemeriksaanList, setPemeriksaanList] = useState([])
     const [activePasienId, setActivePasienId] = useState('')
     const [activePasienData, setActivePasienData] = useState([])
     const [activePemeriksaanId, setActivePemeriksaanId] = useState('')
+    const [activePemeriksaanHP, setActivePemeriksaanHP] = useState([])
     const [isOnServerProcess, setIsOnServerProcess] = useState(false)
 
     async function getPemeriksaanList() {
@@ -66,12 +68,39 @@ function Dashboard() {
         })
     }
 
+    async function getHealthPointsOnActive() {
+        let config = {
+            method: "get",
+            url: `https://isowatch.herokuapp.com/patient/pemeriksaan/${activePemeriksaanId}/healthpoint`,
+            data: {},
+            headers: {'Authorization': "Bearer " + getToken()},
+        }
+
+        console.log("Attempting to make a request on HealthPoints...")
+        setIsOnServerProcess(true)
+        console.log(config)
+        axios(config)
+        .then((result) => {
+            console.log(result)
+            setIsOnServerProcess(false)
+            setActivePemeriksaanHP(result.data.result)
+            console.log("Done. Success.")
+        })
+        .catch((error) => {
+            console.log(error)
+            setIsOnServerProcess(false)
+            setActivePemeriksaanHP([])
+            console.log("Done. Failed.")
+        })
+    }
+
     useEffect(() => {
         getPemeriksaanList()
     }, [])
 
     useEffect(() => {
         getPasienData()
+        getHealthPointsOnActive()
     }, [activePasienId])
 
     return (
@@ -142,6 +171,7 @@ function Dashboard() {
                             </>}
                         </div>
                     </> : <PemeriksaanDetail
+                        healthPoints={activePemeriksaanHP}
                         isOnServerProcess={isOnServerProcess}
                         idPemeriksaan={activePemeriksaanId}
                         pasienData={activePasienData} />}

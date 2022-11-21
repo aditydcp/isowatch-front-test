@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 import './PemeriksaanDetail.scss'
-import axios from "axios";
-import { getToken } from "../utils/cookie-monster";
-import Pusher from 'pusher-js'
 
 import HeartIcon from '../assets/icon_heart.png'
 import BloodPressureIcon from '../assets/icon_pressure.png'
@@ -75,17 +72,17 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={currentData}>
+                            <AreaChart width={600} height={150} data={props.healthPoints}>
                                 <defs>
                                     <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
                                         <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <Area type="monotone" dataKey="hr" stroke="#8884d8" fillOpacity={1} fill="url(#colorHr)" />
+                                <Area type="monotone" dataKey="heartRate" stroke="#8884d8" fillOpacity={1} fill="url(#colorHr)" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
-                                <XAxis dataKey="t" />
-                                <YAxis type="number" domain={['auto', 150]} />
+                                <XAxis dataKey="timestamp" />
+                                <YAxis type="number" domain={['auto', 'auto']} />
                                 <Tooltip />
                             </AreaChart>
                         </div>
@@ -98,22 +95,22 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={currentData}>
+                            <AreaChart width={600} height={150} data={props.healthPoints}>
                                 <defs>
-                                    <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
+                                    <linearGradient id="colorBps" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
                                         <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                                     </linearGradient>
-                                    <linearGradient id="colorBp" x1="0" y1="0" x2="0" y2="1">
+                                    <linearGradient id="colorBpd" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
                                         <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
                                     </linearGradient>
                                 </defs>
-                                <Area type="monotone" dataKey="sbp" stroke="#82ca9d" fillOpacity={1} fill="url(#colorBp)" />
-                                <Area type="monotone" dataKey="hr" stroke="#8884d8" fillOpacity={1} fill="url(#colorHr)" />
+                                <Area type="monotone" dataKey="sistolicBloodPressure" stroke="#82ca9d" fillOpacity={1} fill="url(#colorBps)" />
+                                <Area type="monotone" dataKey="diastolicBloodPressure" stroke="#8884d8" fillOpacity={1} fill="url(#colorBpd)" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
-                                <XAxis dataKey="t" />
-                                <YAxis type="number" domain={['auto', 150]} />
+                                <XAxis dataKey="timestamp" />
+                                <YAxis type="number" domain={['auto', 'auto']} />
                                 <Tooltip />
                             </AreaChart>
                         </div>
@@ -126,17 +123,17 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={currentData}>
+                            <AreaChart width={600} height={150} data={props.healthPoints}>
                                 <defs>
                                     <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
                                         <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <Area type="monotone" dataKey="hr" stroke="#8884d8" fillOpacity={1} fill="url(#colorHr)" />
+                                <Area type="monotone" dataKey="bloodOxygen" stroke="#8884d8" fillOpacity={1} fill="url(#colorHr)" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
-                                <XAxis dataKey="t" />
-                                <YAxis type="number" domain={['auto', 150]} />
+                                <XAxis dataKey="timestamp" />
+                                <YAxis type="number" domain={['auto', 'auto']} />
                                 <Tooltip />
                             </AreaChart>
                         </div>
