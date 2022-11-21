@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import './Login.scss'
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -68,20 +68,20 @@ const Login = () => {
                 </div>
                 <div className="Container">
                     <div className="LogoContainer">
-                        <img src={icon} className="Logo" />
+                        <img src={icon} className="Logo" alt="Monitoring System" />
                     </div>
                     <div className="LoginPanel">
                         <div className="Title">
                             Log In
                         </div>
                         <div className="FeedbackMessage">
-                            {isSuccessful == 3 ? <>
+                            {isSuccessful === 3 ? <>
                                 <div className="processing">
                                     Mohon ditunggu... <br />
                                     Permintaan Anda sedang diproses
                                 </div>
                             </> : <></>}
-                            {isSuccessful == 2 ? <>
+                            {isSuccessful === 2 ? <>
                                 <div className="error">
                                     Terjadi suatu masalah
                                 </div>

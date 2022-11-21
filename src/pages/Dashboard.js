@@ -1,46 +1,78 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.scss"
 import { isLoggedIn, handleLogout, getName, getToken, getId } from "../utils/cookie-monster";
-import { IoAddCircleOutline, IoWarningOutline, IoRefreshCircle, IoPeople, IoPulse } from 'react-icons/io5'
+import { IoAddCircleOutline, IoRefreshCircle, IoPeople, IoPulse } from 'react-icons/io5'
 import logo from '../assets/logo.png'
 import { NavLink } from "react-router-dom";
-import PasienDetail from "../components/PasienDetail";
+import PemeriksaanDetail from "../components/PemeriksaanDetail";
 import axios from "axios";
-import PasienItem from "../components/PasienItem";
+import PemeriksaanItem from "../components/PemeriksaanItem";
 
 function Dashboard() {
-    const [namaAdmin, setNamaAdmin] = useState(getName())
-    const [idAdmin, setIdAdmin] = useState(getId())
-    const [token, setToken] = useState(getToken())
-    const [pasienList, setPasienList] = useState([])
+    const [pemeriksaanList, setPemeriksaanList] = useState([])
     const [activePasienId, setActivePasienId] = useState('')
-    const [isServerOK, setIsServerOK] = useState(true)
+    const [activePasienData, setActivePasienData] = useState([])
+    const [activePemeriksaanId, setActivePemeriksaanId] = useState('')
+    const [isOnServerProcess, setIsOnServerProcess] = useState(false)
 
-    async function getPasienList() {
+    async function getPemeriksaanList() {
         let config = {
             method: "get",
-            url: `https://isowatch.herokuapp.com/admin/${idAdmin}/active-pemeriksaan`,
+            url: `https://isowatch.herokuapp.com/admin/${getId()}/active-pemeriksaan`,
             data: {},
-            headers: {'Authorization': "Bearer " + token},
-            //params: {id: `${idAdmin}`},
+            headers: {'Authorization': "Bearer " + getToken()},
         }
 
         console.log("Attempting to make a request...")
+        setIsOnServerProcess(true)
         console.log(config)
         axios(config)
         .then((result) => {
             console.log(result)
-            setIsServerOK(true)
-            setPasienList(result.data.result)
+            setIsOnServerProcess(false)
+            setPemeriksaanList(result.data.result)
             console.log("Done. Success.")
         })
         .catch((error) => {
             console.log(error)
-            setIsServerOK(false)
-            setPasienList([])
+            setIsOnServerProcess(false)
+            setPemeriksaanList([])
             console.log("Done. Failed.")
         })
     }
+
+    async function getPasienData() {
+        let config = {
+            method: "get",
+            url: `https://isowatch.herokuapp.com/patient/${activePasienId}`,
+            data: {},
+            headers: {'Authorization': "Bearer " + getToken()},
+        }
+
+        console.log("Attempting to make Pasien Data request...")
+        setIsOnServerProcess(true)
+        axios(config)
+        .then((result) => {
+            console.log(result)
+            setActivePasienData(result.data.result)
+            setIsOnServerProcess(false)
+            console.log("Done. Success.")
+        })
+        .catch((error) => {
+            console.log(error)
+            setActivePasienData([])
+            setIsOnServerProcess(false)
+            console.log("Done. Failed.")
+        })
+    }
+
+    useEffect(() => {
+        getPemeriksaanList()
+    }, [])
+
+    useEffect(() => {
+        getPasienData()
+    }, [activePasienId])
 
     return (
         <>
@@ -49,7 +81,7 @@ function Dashboard() {
                 <img src={logo} className="TopBarLogo" alt="Isowatch" />
                 <div className="TopToolbar">
                     <div className="AdminAccount">
-                        Selamat datang, {namaAdmin}
+                        Selamat datang, {getName()}
                     </div>
                     <div className="LogoutButton" onClick={() => {
                         handleLogout()
@@ -61,19 +93,35 @@ function Dashboard() {
             </div>
             <div className="MainPanel">
                 <div className="PasienListPanel">
-                    <div className="PasienToolbar" onClick={() => {getPasienList()}} >
+                    <div className="PasienToolbar"
+                    onClick={() => {
+                        setPemeriksaanList([])
+                        getPemeriksaanList()
+                    }} >
                         <IoRefreshCircle />
                     </div>
                     <div className="PasienList">
-                        {console.log(pasienList)}
-                        {pasienList.length === 0 ? <>
+                        {console.log(pemeriksaanList)}
+                        {pemeriksaanList.length === 0 ? <>
                             <div className="SuwungNotice">
-                                <IoPeople />
-                                Tidak ada pemantauan. <br />
-                                Refresh atau tambah pasien.
+                                {isOnServerProcess ? <>
+                                    <div className="spinner"></div>
+                                    Sedang memproses... <br />
+                                    Mohon ditunggu
+                                </> : <>
+                                    <IoPeople />
+                                    Tidak ada pemantauan. <br />
+                                    Refresh atau tambah pasien.
+                                </>}
                             </div>
-                        </> : pasienList.map((pasien, key) => 
-                            <PasienItem pasien={pasien} active={activePasienId === pasien.idPasien} setActive={setActivePasienId} />
+                        </> : pemeriksaanList.map((pemeriksaan, key) => 
+                            <PemeriksaanItem
+                                pemeriksaan={pemeriksaan}
+                                pasien={activePasienData}
+                                active={activePemeriksaanId === pemeriksaan.idPemeriksaan}
+                                setActive={setActivePemeriksaanId}
+                                setPasien={setActivePasienId}
+                                setLoad={setIsOnServerProcess} />
                         )}
                     </div>
                     <NavLink to="/add" className="AddPasienButton">
@@ -82,12 +130,21 @@ function Dashboard() {
                     </NavLink>
                 </div>
                 <div className="PasienDetailPanel">
-                    {activePasienId === '' ? <>
+                    {activePemeriksaanId === '' ? <>
                         <div className="SuwungNotice">
-                            <IoPulse />
-                            Pilih pasien untuk melihat detail pemantauan
+                            {isOnServerProcess ? <>
+                                <div class="spinner"></div>
+                                Sedang memproses... <br />
+                                Mohon ditunggu
+                            </> : <>
+                                <IoPulse />
+                                Pilih pasien untuk melihat detail pemantauan
+                            </>}
                         </div>
-                    </> : <PasienDetail id={activePasienId} />}
+                    </> : <PemeriksaanDetail
+                        isOnServerProcess={isOnServerProcess}
+                        idPemeriksaan={activePemeriksaanId}
+                        pasienData={activePasienData} />}
                 </div>
             </div>
             </> : window.location.href = "/login" }
