@@ -1,0 +1,102 @@
+.Bar {
+    height: 80px;
+    background-color: #3ABFD3;
+}
+
+.TopBar {
+    display: flex;
+    align-items: center;
+    padding: 0 3.5rem;
+
+    .TopBarLogo {
+        height: 50%;
+    }
+}
+
+.Container {
+    height: calc(100vh - 160px);
+    background-color: #B0D2EA;
+    display: flex;
+    align-items: center;
+    padding: 0 5rem;
+    justify-content: space-around;
+
+    .LogoContainer {
+        height: 25rem;
+        width: fit-content;
+
+        .Logo {
+            height: 100%
+        }
+    }
+
+    .LoginPanel {
+        background-color: #3ABFD3;
+        border-radius: 8px;
+        padding: 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        filter: drop-shadow(0px 16px 32px rgba(0, 0, 0, 0.2));
+        border: 4px solid white;
+
+        .Title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #005CC8;
+        }
+
+        .FeedbackMessage {
+            text-align: center;
+            font-size: .9rem;
+            font-weight: 700;
+
+            .error {
+                color: red;
+            }
+
+            .processing {
+                color: darkslategray;
+            }
+        }
+
+        .FormContainer {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            .FormInputGroup {
+                input {
+                    width: 17.5rem;
+                    height: 2rem;
+                    background: white;
+                    border-radius: 8px;
+                    padding: 0 .5rem;
+                    font-size: .9rem;
+                    border: none;
+                }
+
+                .FormInputTooltip {
+                    font-size: .8rem;
+                    color: red;
+                    margin-left: 1rem;
+                    font-style: italic;
+                    font-weight: 600;
+                }
+            }
+
+            .FormSubmitButton {
+                width: fit-content;
+                padding: .5rem 1.5rem;
+                color: white;
+                background-color: #005CC8;
+                border-radius: 8px;
+                border: none;
+                font-weight: 600;
+                margin-left: auto;
+            }
+        }
+    
+    }
+}
