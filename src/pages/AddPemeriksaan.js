@@ -1,10 +1,113 @@
-import React from "react";
+import React, { useState } from "react";
 import { isLoggedIn, handleLogout, getName } from "../utils/cookie-monster";
 import './AddPemeriksaan.scss'
+import FormIDPemeriksaan from "../components/FormIDPemeriksaan";
+import FormIDPasien from "../components/FormIDPasien";
+import FormDataPasien from "../components/FormDataPasien";
+import { IoArrowBackCircle } from "react-icons/io5"
+import axios from "axios";
+import { getToken, getId } from "../utils/cookie-monster";
+import { NavLink } from "react-router-dom";
 
 import logo from '../assets/logo.png'
 
 const AddPemeriksaan = () => {
+    // formStage indicates the stages of the form the user is in
+    // 0 => just got here
+    // 1 => finished stage 1
+    // 2 => finished stage 2
+    // 3 => finished stage 3
+    const [formStage, setFormStage] = useState(0)
+    const [isDone, setIsDone] = useState(false)
+    const [isSuccessful, setIsSuccessful] = useState(true)
+    const [idPemeriksaan, setIdPemeriksaan] = useState('')
+    const [idPasien, setIdPasien] = useState('')
+    const [namaPasien, setNamaPasien] = useState('')
+    const [tanggalLahir, setTanggalLahir] = useState('')
+    const [alamat, setAlamat] = useState('')
+    const [gender, setGender] = useState('')
+    const [keluhan, setKeluhan] = useState('')
+    const [riwayatPenyakit, setRiwayatPenyakit] = useState('')
+    
+    // valid flags: 0 => unvalidated, 1 => valid, 2 => invalid, 3 => validating
+    // flag 1 special case: 4 => pemeriksaan sudah ada di list, 5 => pemeriksaan sudah ada pasien
+    const [validFlag1, setValidFlag1] = useState(0)
+    // flag 2 special case: 4 => pasien sudah ada dalam pemeriksaan, 5 => entity pasien sudah terdaftar
+    const [validFlag2, setValidFlag2] = useState(0)
+    const [validFlag3, setValidFlag3] = useState(0)
+
+    async function finalize() {
+        
+    }
+
+    async function checkPemeriksaan() {
+        let config = {
+            method: "get",
+            url: `https://isowatch.herokuapp.com/patient/pemeriksaan/${idPemeriksaan}`,
+            data: {},
+            headers: {'Authorization': "Bearer " + getToken()},
+        }
+
+        console.log("Attempting to find Pemeriksaan...")
+        setValidFlag1(3)
+        setIsDone(false)
+        console.log(config)
+        axios(config)
+        .then((result) => {
+            console.log(result)
+            if ((!result.data.result.idPasien) &&
+                (!result.data.result.idAdmin.includes(getId()))) {
+                setValidFlag1(1)
+                setFormStage(1)
+                console.log("Done. Success.")
+            }
+            else {
+                if ((result.data.result.idPasien) &&
+                (!result.data.result.idAdmin.includes(getId()))) {
+                    setValidFlag1(5)
+                    setValidFlag2(4)
+                    setIdPasien(result.data.result.idPasien)
+                    setFormStage(1)
+                    setIsDone(true)
+                }
+                else {
+                    setValidFlag1(4)
+                    setFormStage(0)
+                }
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+            setValidFlag1(2)
+            console.log("Done. Failed.")
+        })
+    }
+
+    async function checkPasien() {
+        let config = {
+            method: "get",
+            url: `https://isowatch.herokuapp.com/patient/${idPasien}`,
+            data: {},
+            headers: {'Authorization': "Bearer " + getToken()},
+        }
+
+        console.log("Attempting to find Pasien...")
+        setValidFlag2(3)
+        console.log(config)
+        axios(config)
+        .then((result) => {
+            console.log(result)
+            setValidFlag2(1)
+            setFormStage(2)
+            console.log("Done. Success.")
+        })
+        .catch((error) => {
+            console.log(error)
+            setValidFlag2(2)
+            console.log("Done. Failed.")
+        })
+    }
+
     return (
         <>
             {isLoggedIn() ? <>
@@ -22,16 +125,78 @@ const AddPemeriksaan = () => {
                     </div>
                 </div>
             </div>
-            <div className="MainPanel">
+            <div className="MainPanelAdd">
                 <div className="PanelTitle">
                     Tambah Pasien
                 </div>
+                <div className="Navigation">
+                    <NavLink to="/">
+                        <IoArrowBackCircle /> <span>Back</span>
+                    </NavLink>
+                </div>
                 <div className="ProcedureContainer">
+                    <div className="StageItem">
+                        <div className="StageIcon">
 
+                        </div>
+                        <div className="StageTitle">
+
+                        </div>
+                    </div>
+                    <div className="StageItem">
+                        <div className="StageIcon">
+
+                        </div>
+                        <div className="StageTitle">
+                            
+                        </div>
+                    </div>
+                    <div className="StageItem">
+                        <div className="StageIcon">
+
+                        </div>
+                        <div className="StageTitle">
+                            
+                        </div>
+                    </div>
                 </div>
                 <div className="FormContainer">
-                    
+                    <FormIDPemeriksaan
+                        idPemeriksaan={idPemeriksaan}
+                        setIdPemeriksaan={setIdPemeriksaan}
+                        queryFunction={checkPemeriksaan}
+                        validFlag={validFlag1}
+                    />
+                    {formStage > 0 ? 
+                        <FormIDPasien
+                            idPasien={idPasien}
+                            setIdPasien={setIdPasien}
+                            queryFunction={checkPasien}
+                            validFlag={validFlag2}
+                            isDone={isDone} />
+                    : <></>}
+                    {formStage > 1 ?
+                        <FormDataPasien
+                            namaPasien={namaPasien} setNamaPasien={setNamaPasien}
+                            gender={gender} setGender={setGender}
+                            tanggalLahir={tanggalLahir} setTanggalLahir={setTanggalLahir}
+                            alamat={alamat} setAlamat={setAlamat}
+                            keluhan={keluhan} setKeluhan={setKeluhan}
+                            riwayatPenyakit={riwayatPenyakit} setRiwayatPenyakit={setRiwayatPenyakit}
+                            stage={formStage} setStage={setFormStage} /> 
+                    : <></>}
                 </div>
+                {isDone ? <div className="FinalButton"
+                    onClick={() => {
+                        finalize()
+                    }}>
+                    Finish
+                </div> : <></>}
+                {!isSuccessful ? <div className="GetBack">
+                    <NavLink to="/">
+                        Go Back
+                    </NavLink>
+                </div> : <></>}
             </div>
             </> : window.location.href = "/login" }
         </>

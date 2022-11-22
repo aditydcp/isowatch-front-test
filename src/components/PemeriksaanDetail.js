@@ -9,19 +9,8 @@ import BloodOxygenIcon from '../assets/icon_oxygen.png'
 const PemeriksaanDetail = props => {
     const [localT, setLocalT] = useState(0)
     const [localHealthPoints, setLocalHealthPoints] = useState([])
-
-    // async function getHealthPoints() {
-        
-    // }
-
-    // function addHealthPoint() {
-    //     if (currentT < 20) {
-
-    //     }
-    //     else {
-
-    //     }
-    // }
+    const height = 125
+    const width = 650
 
     // when new data comes in
     useEffect(() => {
@@ -83,7 +72,7 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={localHealthPoints}>
+                            <AreaChart width={width} height={height} data={localHealthPoints}>
                                 <defs>
                                     <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
@@ -106,7 +95,7 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={localHealthPoints}>
+                            <AreaChart width={width} height={height} data={localHealthPoints}>
                                 <defs>
                                     <linearGradient id="colorBps" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
@@ -134,7 +123,7 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={localHealthPoints}>
+                            <AreaChart width={width} height={height} data={localHealthPoints}>
                                 <defs>
                                     <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
