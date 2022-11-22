@@ -30,6 +30,8 @@ Open your browser and go to http://localhost:3000/
 
 ## Changelog
 
+v0.2.1: Real-time data updates
+
 v0.2.0: Full Dashboard view
 
 v0.1.0: init project. Login function and Pasien List view
