@@ -15,6 +15,9 @@ function Dashboard() {
     const [activePasienData, setActivePasienData] = useState([])
     const [activePemeriksaanId, setActivePemeriksaanId] = useState('')
     const [activePemeriksaanHP, setActivePemeriksaanHP] = useState([])
+    const [newHealthPoint, setNewHealthPoint] = useState([])
+
+    const [renderTrigger, setRenderTrigger] = useState(false)
     const [isOnServerProcess, setIsOnServerProcess] = useState(false)
 
     async function getPemeriksaanList() {
@@ -94,6 +97,45 @@ function Dashboard() {
         })
     }
 
+    // TODO: evaluate condition
+    async function healthEvaluator(healthPoint) {
+
+    }
+
+    useEffect(() => {
+        const pusher = new Pusher(process.env.REACT_APP_PUSHER_KEY, {
+            cluster: 'ap1',
+            encrypted: true,
+        })
+        const channel = pusher.subscribe('healthpoints')
+
+        channel.bind('inserted', (data) => {
+            console.log("Here comes the Pusher")
+            console.log(data)
+            // check if the ID is the same as the current active ID
+            // then add the newly added HP to the graph by passing newHealthPoint down
+            if (data.idPemeriksaan === activePemeriksaanId)
+                setRenderTrigger(!renderTrigger)
+                setNewHealthPoint(data)
+            
+            // check if the ID is present in the Admin's list of Pemeriksaan
+            let isUsers = false
+            pemeriksaanList.map((pemeriksaan, key) => {
+                if (pemeriksaan.idPemeriksaan === data.idPemeriksaan)
+                    isUsers = true
+            })
+
+            // if ID is present, evaluate health
+            // if (isUsers) healthEvaluator(data)
+
+            // if not, do nothing
+        })
+
+        return () => {
+            pusher.unsubscribe('healthpoints')
+        }
+    }, [])
+
     useEffect(() => {
         getPemeriksaanList()
     }, [])
@@ -109,6 +151,7 @@ function Dashboard() {
             <div className="TopBar">
                 <img src={logo} className="TopBarLogo" alt="Isowatch" />
                 <div className="TopToolbar">
+                    <div className={`ball ${renderTrigger ? "blue" : "red"}`} />
                     <div className="AdminAccount">
                         Selamat datang, {getName()}
                     </div>
@@ -171,6 +214,7 @@ function Dashboard() {
                             </>}
                         </div>
                     </> : <PemeriksaanDetail
+                        newHealthPoint={newHealthPoint}
                         healthPoints={activePemeriksaanHP}
                         isOnServerProcess={isOnServerProcess}
                         idPemeriksaan={activePemeriksaanId}

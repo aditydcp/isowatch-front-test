@@ -116,6 +116,19 @@
     }
 }
 
+.ball {
+    width: 4px;
+    height: 4px;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.red {
+    background-color: red;
+}
+
 @keyframes spin {
     100% {
         transform: rotate(360deg);
