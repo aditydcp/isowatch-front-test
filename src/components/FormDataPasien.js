@@ -2,22 +2,17 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 const FormDataPasien = props => {
-    const { register, formState: { errors }, control, handleSubmit } = useForm()
-    const onSubmit = data => console.log(data);
-
-    function getBirthDate() {
-        let date_in_milliseconds = Date.parse(props.pasienData.tanggalLahir)
-        let birthdate = new Date(date_in_milliseconds)
-        return birthdate
-    }
-
-    function getBirthDateString() {
-        return getBirthDate().toLocaleDateString()
-    }
+    const { register, formState: { errors }, handleSubmit } = useForm()
 
     return (
         <form className="FormUnit FormDataPasien"
-            onSubmit={handleSubmit(onSubmit)}>
+            onSubmit={handleSubmit(() => {
+                try {
+                    props.queryFunction()
+                } catch (e) {
+                    console.log(e)
+                }
+            })}>
             <label className="FormInputGroup">
                 Nama Pasien
                 <input
@@ -32,16 +27,21 @@ const FormDataPasien = props => {
             </label>
             <label className="FormInputGroup GenderInput">
                 Jenis Kelamin
-                <div className="radio-button">
-                    <input type="radio" value="Laki-laki"
-                        {...register("gender")} />
-                        Laki-Laki
-                </div>
-                <div className="radio-button">
-                    <input type="radio" value="Perempuan"
-                        {...register("gender")} />
-                        Perempuan
-                </div>
+                {props.validFlag === 4 ?
+                    <div className="radio-button"> {props.gender} </div>
+                : <>
+                    <div className="radio-button">
+                        <input type="radio" value="Laki-laki"
+                            {...register("gender")} />
+                            Laki-Laki
+                    </div>
+                    <div className="radio-button">
+                        <input type="radio" value="Perempuan"
+                            {...register("gender")} />
+                            Perempuan
+                    </div>
+                </>}
+                
             </label>
             <label className="FormInputGroup">
                 <div className="FormTitleWithHint">
@@ -100,7 +100,7 @@ const FormDataPasien = props => {
                     {errors.riwayatPenyakit?.message}
                 </div>
             </label>
-            <input type="submit" className="SubmitButton" />
+            {!props.isDone ? <input type="submit" className="SubmitButton" /> : <></>}
         </form>
     )
 }

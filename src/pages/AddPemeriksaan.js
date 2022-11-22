@@ -34,10 +34,21 @@ const AddPemeriksaan = () => {
     const [validFlag1, setValidFlag1] = useState(0)
     // flag 2 special case: 4 => pasien sudah ada dalam pemeriksaan, 5 => entity pasien sudah terdaftar
     const [validFlag2, setValidFlag2] = useState(0)
+    // flag 3 special case: 4 => entity pasien sudah terdaftar
     const [validFlag3, setValidFlag3] = useState(0)
 
+    function getBirthDate(tanggal) {
+        let date_in_milliseconds = Date.parse(tanggal)
+        let birthdate = new Date(date_in_milliseconds)
+        return birthdate
+    }
+
+    function getBirthDateString(tanggal) {
+        return getBirthDate(tanggal).toLocaleDateString()
+    }
+
     async function finalize() {
-        
+
     }
 
     async function checkPemeriksaan() {
@@ -97,14 +108,29 @@ const AddPemeriksaan = () => {
         axios(config)
         .then((result) => {
             console.log(result)
-            setValidFlag2(1)
+            setValidFlag2(5)
+            setValidFlag3(4)
+            let dataPasien = result.data.result
+            setNamaPasien(dataPasien.namaPasien)
+            setGender(dataPasien.gender)
+            setAlamat(dataPasien.alamat)
+            setTanggalLahir(getBirthDateString(dataPasien.tanggalLahir))
+            if(dataPasien.keluhan) setKeluhan(dataPasien.keluhan)
+            if(dataPasien.riwayatPenyakit) setRiwayatPenyakit(dataPasien.riwayatPenyakit)
             setFormStage(2)
+            setIsDone(true)
             console.log("Done. Success.")
         })
         .catch((error) => {
-            console.log(error)
-            setValidFlag2(2)
-            console.log("Done. Failed.")
+            console.log(error.response.status)
+            if(error.response.status === 404) {
+                setValidFlag2(1)
+                setFormStage(2)
+            }
+            else {
+                setValidFlag2(2)
+                console.log("Done. Failed.")
+            }
         })
     }
 
@@ -183,7 +209,10 @@ const AddPemeriksaan = () => {
                             alamat={alamat} setAlamat={setAlamat}
                             keluhan={keluhan} setKeluhan={setKeluhan}
                             riwayatPenyakit={riwayatPenyakit} setRiwayatPenyakit={setRiwayatPenyakit}
-                            stage={formStage} setStage={setFormStage} /> 
+                            stage={formStage} setStage={setFormStage}
+                            validFlag={validFlag3}
+                            queryFunction={finalize}
+                            isDone={isDone} />
                     : <></>}
                 </div>
                 {isDone ? <div className="FinalButton"

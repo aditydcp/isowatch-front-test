@@ -31,7 +31,7 @@ const FormIDPasien = props => {
             </div>
             <div className="FormResponse">
                 {props.validFlag === 1 ? <>
-                    <IoCheckmark />
+                    <IoCheckmark /> Mendaftarkan pasien baru
                 </> : props.validFlag === 3 ? <>
                     <div className="spinner-miniform" />
                 </> : <></>}
