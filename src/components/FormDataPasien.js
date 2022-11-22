@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import "react-datepicker/dist/react-datepicker.css";
 
 const FormDataPasien = props => {
     const { register, formState: { errors }, control, handleSubmit } = useForm()
