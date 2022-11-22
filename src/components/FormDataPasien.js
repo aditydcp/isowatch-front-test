@@ -100,7 +100,7 @@ const FormDataPasien = props => {
                     {errors.riwayatPenyakit?.message}
                 </div>
             </label>
-            {!props.isDone ? <input type="submit" className="SubmitButton" /> : <></>}
+            {/* {!props.isDone ? <input type="submit" className="SubmitButton" /> : <></>} */}
         </form>
     )
 }
