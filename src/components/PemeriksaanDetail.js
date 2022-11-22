@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 import './PemeriksaanDetail.scss'
 
@@ -7,9 +7,8 @@ import BloodPressureIcon from '../assets/icon_pressure.png'
 import BloodOxygenIcon from '../assets/icon_oxygen.png'
 
 const PemeriksaanDetail = props => {
-    const data = [{t: 1, hr: 70, sbp:120}, {t: 2, hr: 74, sbp:117}, {t: 3, hr: 78, sbp:114}, {t: 4,hr: 73, sbp:120}, {t: 5, hr: 80, sbp:121}]
-    const [currentData, setCurrentData] = useState(data)
-    const [currentT, setCurrentT] = useState(5)
+    const [localT, setLocalT] = useState(0)
+    const [localHealthPoints, setLocalHealthPoints] = useState([])
 
     // async function getHealthPoints() {
         
@@ -24,15 +23,27 @@ const PemeriksaanDetail = props => {
     //     }
     // }
 
-    // useEffect(() => {
-    //     const pusher = new Pusher('518f3d0acbc08f465beb', {
-    //         cluster: 'ap1',
-    //         encrypted: true,
-    //     })
-    //     const channel = pusher.subscribe('healthpoints')
+    // when new data comes in
+    useEffect(() => {
+        console.log("PemeriksaanDetail.js: New Healthpoint found!")
+        // check if total data is less than 20
+        if (localT < 20){
+            // if so, append newHealthPoint to localHealthPoints
+            setLocalHealthPoints(current => [...current, props.newHealthPoint])
+            setLocalT(localT + 1)
+        }
+        else {
+            // else, remove the first element and append the new one to the last
+            let [first, ...rest] = localHealthPoints
+            setLocalHealthPoints(...rest, props.newHealthPoint)
+        }
+    }, [props.newHealthPoint])
 
-    //     channel.bind('inserted', addHealthPoint)
-    // }, [])
+    useEffect(() => {
+        // assign props to local state to manipulate later
+        setLocalHealthPoints(props.healthPoints)
+        setLocalT(props.healthPoints.length)
+    }, [props.healthPoints])
 
     function getBirthDate() {
         let date_in_milliseconds = Date.parse(props.pasienData.tanggalLahir)
@@ -72,7 +83,7 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={props.healthPoints}>
+                            <AreaChart width={600} height={150} data={localHealthPoints}>
                                 <defs>
                                     <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
@@ -95,7 +106,7 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={props.healthPoints}>
+                            <AreaChart width={600} height={150} data={localHealthPoints}>
                                 <defs>
                                     <linearGradient id="colorBps" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
@@ -123,7 +134,7 @@ const PemeriksaanDetail = props => {
                             </div>
                         </div>
                         <div className="ParameterDetail">
-                            <AreaChart width={600} height={150} data={props.healthPoints}>
+                            <AreaChart width={600} height={150} data={localHealthPoints}>
                                 <defs>
                                     <linearGradient id="colorHr" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8884d8" stopOpacity={.8} />
