@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./Dashboard.scss"
 import { isLoggedIn, handleLogout, getName, getToken, getId } from "../utils/cookie-monster";
 import { IoAddCircleOutline, IoRefreshCircle, IoPeople, IoPulse } from 'react-icons/io5'
-import logo from '../assets/logo.png'
 import { NavLink } from "react-router-dom";
 import PemeriksaanDetail from "../components/PemeriksaanDetail";
 import axios from "axios";
 import PemeriksaanItem from "../components/PemeriksaanItem";
 import Pusher from 'pusher-js'
+
+import logo from '../assets/logo.png'
 
 function Dashboard() {
     const [pemeriksaanList, setPemeriksaanList] = useState([])
