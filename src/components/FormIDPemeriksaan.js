@@ -23,7 +23,7 @@ const FormIDPemeriksaan = props => {
                         onChange: (e) => props.setIdPemeriksaan(e.target.value),
                 })} aria-invalid={errors.idPemeriksaan ? "true" : "false"} />
             </label>
-            <input type="submit" className="SubmitButton" />
+            <input type="submit" value="Check" className="SubmitButton" />
             <div className="FormInputTooltip" role="alert">
                 {errors.idPemeriksaan?.message}
                 {props.validFlag === 2 ? "ID tidak ada atau terjadi masalah" : ""}

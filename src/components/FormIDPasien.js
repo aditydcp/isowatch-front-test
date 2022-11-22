@@ -24,14 +24,14 @@ const FormIDPasien = props => {
                         onChange: (e) => props.setIdPasien(e.target.value),
                 })} aria-invalid={errors.idPasien ? "true" : "false"} />
             </label>
-            {!props.isDone ? <input type="submit" className="SubmitButton" /> : <></>}
+            {!props.isDone ? <input type="submit" value="Check" className="SubmitButton" /> : <></>}
             <div className="FormInputTooltip" role="alert">
                 {errors.idPasien?.message}
                 {props.validFlag === 2 ? "ID tidak ada atau terjadi masalah" : ""}
             </div>
             <div className="FormResponse">
                 {props.validFlag === 1 ? <>
-                    <IoCheckmark />
+                    <IoCheckmark /> Mendaftarkan pasien baru
                 </> : props.validFlag === 3 ? <>
                     <div className="spinner-miniform" />
                 </> : <></>}
