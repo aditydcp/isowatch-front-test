@@ -8,6 +8,7 @@ const FormDataPasien = props => {
         <form className="FormUnit FormDataPasien"
             onSubmit={handleSubmit(() => {
                 try {
+                    console.log("Submit handled")
                     props.queryFunction()
                 } catch (e) {
                     console.log(e)
@@ -31,13 +32,13 @@ const FormDataPasien = props => {
                     <div className="radio-button"> {props.gender} </div>
                 : <>
                     <div className="radio-button">
-                        <input type="radio" value="Laki-laki"
-                            {...register("gender")} />
+                        <input {...register("gender", { value: "Laki-laki" })}
+                            type="radio" value="Laki-laki" onClick={() => props.setGender('Laki-laki')} />
                             Laki-Laki
                     </div>
                     <div className="radio-button">
-                        <input type="radio" value="Perempuan"
-                            {...register("gender")} />
+                        <input {...register("gender", { value: "Perempuan" })}
+                            type="radio" value="Perempuan" onClick={() => props.setGender('Perempuan')} />
                             Perempuan
                     </div>
                 </>}
@@ -46,7 +47,7 @@ const FormDataPasien = props => {
             <label className="FormInputGroup">
                 <div className="FormTitleWithHint">
                     Tanggal Lahir
-                    <span className="hint">Format: DD/MM/YYYY</span>
+                    <span className="hint">Format: MM/DD/YYYY</span>
                 </div>
                 <input
                     {...register("tanggalLahir", {
@@ -100,7 +101,8 @@ const FormDataPasien = props => {
                     {errors.riwayatPenyakit?.message}
                 </div>
             </label>
-            {/* {!props.isDone ? <input type="submit" className="SubmitButton" /> : <></>} */}
+            {!props.isDone ? <input type="submit" className="SubmitButton" /> : <></>}
+
         </form>
     )
 }
