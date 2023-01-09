@@ -24,7 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://isowatch.herokuapp.com",
+  "proxy": "https://isowatch-web.up.railway.app",
   "eslintConfig": {
     "extends": [
       "react-app",

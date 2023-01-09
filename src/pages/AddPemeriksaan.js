@@ -52,7 +52,7 @@ const AddPemeriksaan = () => {
         let idAdmin = getId()
         let config = {
             method: "put",
-            url: `https://isowatch.herokuapp.com/admin/pemeriksaan/${idPemeriksaan}`,
+            url: `https://isowatch-web.up.railway.app/admin/pemeriksaan/${idPemeriksaan}`,
             data: { idAdmin },
             headers: {'Authorization': "Bearer " + getToken()},
         }
@@ -75,7 +75,7 @@ const AddPemeriksaan = () => {
         let idAdmin = getId()
         let config = {
             method: "put",
-            url: `https://isowatch.herokuapp.com/pemeriksaan/${idPemeriksaan}`,
+            url: `https://isowatch-web.up.railway.app/pemeriksaan/${idPemeriksaan}`,
             data: { idAdmin, idPasien },
             headers: {'Authorization': "Bearer " + getToken()},
         }
@@ -97,7 +97,7 @@ const AddPemeriksaan = () => {
     async function registerPasienAndPut() {
         let config = {
             method: "post",
-            url: `https://isowatch.herokuapp.com/patient/register`,
+            url: `https://isowatch-web.up.railway.app/patient/register`,
             data: {
                 idPasien,
                 namaPasien,
@@ -145,7 +145,7 @@ const AddPemeriksaan = () => {
     async function checkPemeriksaan() {
         let config = {
             method: "get",
-            url: `https://isowatch.herokuapp.com/patient/pemeriksaan/${idPemeriksaan}`,
+            url: `https://isowatch-web.up.railway.app/patient/pemeriksaan/${idPemeriksaan}`,
             data: {},
             headers: {'Authorization': "Bearer " + getToken()},
         }
@@ -188,7 +188,7 @@ const AddPemeriksaan = () => {
     async function checkPasien() {
         let config = {
             method: "get",
-            url: `https://isowatch.herokuapp.com/patient/${idPasien}`,
+            url: `https://isowatch-web.up.railway.app/patient/${idPasien}`,
             data: {},
             headers: {'Authorization': "Bearer " + getToken()},
         }

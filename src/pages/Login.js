@@ -24,7 +24,7 @@ const Login = () => {
 
     const config = {
         method: "post",
-        url: "https://isowatch.herokuapp.com/admin/login",
+        url: "https://isowatch-web.up.railway.app/admin/login",
         data: {
             idAdmin,
             password,
