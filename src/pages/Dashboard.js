@@ -24,7 +24,7 @@ function Dashboard() {
     async function getPemeriksaanList() {
         let config = {
             method: "get",
-            url: `https://isowatch.herokuapp.com/admin/${getId()}/active-pemeriksaan`,
+            url: `https://isowatch-web.up.railway.app/admin/${getId()}/active-pemeriksaan`,
             data: {},
             headers: {'Authorization': "Bearer " + getToken()},
         }
@@ -50,7 +50,7 @@ function Dashboard() {
     async function getPasienData() {
         let config = {
             method: "get",
-            url: `https://isowatch.herokuapp.com/patient/${activePasienId}`,
+            url: `https://isowatch-web.up.railway.app/patient/${activePasienId}`,
             data: {},
             headers: {'Authorization': "Bearer " + getToken()},
         }
@@ -75,7 +75,7 @@ function Dashboard() {
     async function getHealthPointsOnActive() {
         let config = {
             method: "get",
-            url: `https://isowatch.herokuapp.com/patient/pemeriksaan/${activePemeriksaanId}/healthpoint`,
+            url: `https://isowatch-web.up.railway.app/patient/pemeriksaan/${activePemeriksaanId}/healthpoint`,
             data: {},
             headers: {'Authorization': "Bearer " + getToken()},
         }
